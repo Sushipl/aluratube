@@ -19,6 +19,7 @@ function HomePage() {
                 <Menu />
                 <Header />
                 <TimeLine playlists={config.playlists} />
+                <Fav favs={config.favoritos}/>
             </div>
         </>
     )
@@ -33,10 +34,14 @@ function HomePage() {
 }*/
 
 const StyledHeader = styled.div`
-    img {
+    img.ft {
         width: 80px;
         height: 80px;
         border-radius: 50%;
+    }
+    img.banner{
+        width: 100%;
+        height: 30em;
     }
     .user-info {
         margin-top:50px;
@@ -50,9 +55,9 @@ const StyledHeader = styled.div`
 function Header() {
     return (
         <StyledHeader>
-            {/*<img src="banner" />*/}
+            <img className="banner" src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=872&q=80"/>
             <section className="user-info">
-                <img src={`https://github.com/${config.github}.png`} />
+                <img className="ft" src={`https://github.com/${config.github}.png`} />
                 <div>
                     <h2>
                         {config.name}
@@ -62,7 +67,6 @@ function Header() {
                     </p>
                 </div>
             </section>
-            Header
         </StyledHeader>
     )
 }
@@ -74,25 +78,56 @@ function TimeLine(props) {
         <StyledTimeline>
             {playlistNames.map((playlistName) => {
                 const videos = props.playlists[playlistName];
-                console.log(playlistName);
                 return (
                     <section>
                         <h2>{playlistName}</h2>
                         <div>
                             {videos.map((video) => {
-                                return (<a href={video.url}>
+                                return (
+                                <a href={video.url}>
                                     <img src={video.thumb} />
                                     <span>
                                         {video.title}
                                     </span>
-                                </a>)
+                                </a>
+                                )
                             })}
                         </div>
                     </section>
-
                 )
             })}
         </StyledTimeline>
+    )
+}
+
+const Favori = styled.div`
+    img.ft {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+    }
+    section.alinha{
+        display: grid;
+        margin: 16px;
+        text-align: center;
+    }
+    display: flex;
+    padding: 16px;
+    
+` 
+function Fav(props){
+    return (
+        <Favori>        
+            {props.favs.map((e) => {
+            return (
+                    <section className="alinha">
+                        
+                        <img className="ft" src={`https://github.com/${e.arroba}.png`}/>
+                        <span>@{e.arroba}</span>
+                    </section>
+                
+            )})}
+        </Favori>
     )
 }
 
