@@ -3,13 +3,31 @@ import styled from "styled-components";
 import { CSSReset } from "../src/components/CSSReaset";
 import Menu from "../src/components/Menu";
 import { StyledTimeline } from "../src/components/TimeLine";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+
 
 
 function HomePage() {
-
+    const service = videoService();
     const [search, setSearch] = useState("");
+    const [playlists, setPlaylists] = useState({})
 
+    useEffect(() => {
+        service.getAllVideos()
+            .then((dados) => {
+                console.log(dados.data)
+                const novasPlaylists = {...playlists}
+                dados.data.forEach((video) => {
+                    if(!novasPlaylists[video.playlist]) {
+                        novasPlaylists[video.playlist] = [];
+                    }
+                    novasPlaylists[video.playlist].push(video)
+                })
+                setPlaylists(novasPlaylists)
+        });
+    }, [])
+    
     return (
         <>
             <CSSReset />
@@ -20,7 +38,7 @@ function HomePage() {
             }}>
                 <Menu set={setSearch} searchValue={search}/>
                 <Header />
-                <TimeLine searchValue={search} playlists={config.playlists} />
+                <TimeLine searchValue={search} playlists={playlists} />
                 <Fav favs={config.favoritos}/>
             </div>
         </>
@@ -36,6 +54,8 @@ function HomePage() {
 }*/
 
 const StyledHeader = styled.div`
+    background-color: ${({ theme }) => theme.backgroundLevel1};
+
     img.ft {
         width: 80px;
         height: 80px;
