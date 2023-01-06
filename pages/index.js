@@ -5,9 +5,6 @@ import Menu from "../src/components/Menu";
 import { StyledTimeline } from "../src/components/TimeLine";
 import { useEffect, useState } from "react";
 
-
-
-
 function HomePage() {
     const service = videoService();
     const [search, setSearch] = useState("");
