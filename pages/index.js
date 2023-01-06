@@ -4,6 +4,7 @@ import { CSSReset } from "../src/components/CSSReaset";
 import Menu from "../src/components/Menu";
 import { StyledTimeline } from "../src/components/TimeLine";
 import { useEffect, useState } from "react";
+import { videoService } from "../src/services/videoService";
 
 function HomePage() {
     const service = videoService();
@@ -13,7 +14,6 @@ function HomePage() {
     useEffect(() => {
         service.getAllVideos()
             .then((dados) => {
-                console.log(dados.data)
                 const novasPlaylists = {...playlists}
                 dados.data.forEach((video) => {
                     if(!novasPlaylists[video.playlist]) {
@@ -110,7 +110,7 @@ function TimeLine({searchValue, ...props}) {
                                 return video.title.toLowerCase().includes(searchValue.toLowerCase())
                             }).map((video) => {
                                 return (
-                                <a key={video.url} href={video.url}>
+                                <a key={video.url+video.id} href={video.url}>
                                     <img src={video.thumb} />
                                     <span>
                                         {video.title}
